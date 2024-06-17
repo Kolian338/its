@@ -8,6 +8,7 @@ from api_tests.itec.api.api_client import client_api
 def get_devices_from_response(json_response: dict):
     return list(json_response.get('result').get('devices'))
 
+
 # TODO Проверять если нет столько устройств
 @allure.title('Получаем одно активное устройство')
 def get_some_active_device(count_devices: int):
