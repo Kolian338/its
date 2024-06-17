@@ -25,4 +25,6 @@ allure serve allure_results
 ```
 pip3 freeze > requirements.txt - сохранить зависимости
 pip3 install -r requirements.txt - установить зависимости
+
+pip install pydantic-settings
 ```
