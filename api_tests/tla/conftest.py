@@ -1,6 +1,6 @@
 import allure
 import pytest
-from api_tests.tla.api_client import client_api
+from api_tests.tla.api.api_client import client_api
 
 
 @pytest.fixture()

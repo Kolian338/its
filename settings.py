@@ -9,10 +9,7 @@ class MsourceEnum(str, Enum):
 
 
 class Settings(BaseSettings):
-    """
-    Класс для настроек проектов. По приоритету берется из .env.
-    По умолчанию заданы дефолтные url на случай если в .env их нет.
-    """
+    """Общий класс настроек."""
 
     model_config = SettingsConfigDict(
         env_file='.env',
@@ -20,10 +17,31 @@ class Settings(BaseSettings):
         env_nested_delimiter='.'
     )
 
+
+class ItecSettings(Settings):
+    """
+    Класс для настроек проектов.
+
+    По приоритету берется из .env.
+    По умолчанию заданы дефолтные url в атрибутах,
+    на случай если в .env их нет.
+    """
+
     itec_url: str = Field(
         'http://192.168.32.67:3000',
         description='url для сервиса itec'
     )
+
+
+class TlaSettings(Settings):
+    """
+    Класс для настроек проектов.
+
+    По приоритету берется из .env.
+    По умолчанию заданы дефолтные url в атрибутах,
+    на случай если в .env их нет.
+    """
+
     tla_url: str = Field(
         'http://traffic-lights-api-develop.k8.sccloud.ru',
         description='url для сервиса tla'
@@ -38,4 +56,5 @@ class Settings(BaseSettings):
     )
 
 
-base_settings = Settings()
+itec_settings = ItecSettings()
+tla_settings = TlaSettings()
