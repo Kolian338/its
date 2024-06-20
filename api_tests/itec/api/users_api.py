@@ -1,6 +1,6 @@
 import json
 import allure
-from api_tests.itec.models.users_model import \
+from api_tests.itec.schemas.user import \
     AddUserRequestModel, DeleteUserRequest
 
 

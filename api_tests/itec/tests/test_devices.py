@@ -7,10 +7,10 @@ from api_tests.itec.assertions.schema import validate_schema
 from api_tests.itec.api.devices_api import \
     get_active_device_api, get_device_api
 
-from api_tests.itec.models.devices_model import \
+from api_tests.itec.schemas.device import \
     GetActiveDeviceRequestModel, GetActiveDeviceResponseModel, \
     GetDeviceRequestModel, GetDeviceResponseModel
-from api_tests.itec.models.users_model import \
+from api_tests.itec.schemas.user import \
     AddUserRequestModel
 
 from api_tests.itec.helper.devices import get_devices_from_response, \

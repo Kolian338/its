@@ -1,6 +1,6 @@
 import json
 import allure
-from api_tests.itec.models.devices_model import \
+from api_tests.itec.schemas.device import \
     GetDeviceRequestModel, GetActiveDeviceRequestModel
 
 

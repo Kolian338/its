@@ -3,8 +3,8 @@ import json
 import pytest
 from api_tests.itec.api.api_client import client_api
 from api_tests.itec.api.users_api import add_user_api, delete_user_api
-from api_tests.itec.models.devices_model import GetActiveDeviceRequestModel
-from api_tests.itec.models.users_model import DeleteUserRequest
+from api_tests.itec.schemas.device import GetActiveDeviceRequestModel
+from api_tests.itec.schemas.user import DeleteUserRequest
 
 
 @pytest.fixture()

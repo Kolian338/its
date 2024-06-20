@@ -4,9 +4,9 @@ import pytest
 from api_tests.itec.api.users_api import add_user_api, delete_user_api
 from api_tests.itec.api.devices_api import get_device_api
 
-from api_tests.itec.models.users_model import AddUserRequestModel, \
+from api_tests.itec.schemas.user import AddUserRequestModel, \
     AddUserResponseModel, DeleteUserRequest, DeleteUserResponse
-from api_tests.itec.models.devices_model import GetDeviceRequestModel
+from api_tests.itec.schemas.device import GetDeviceRequestModel
 
 from api_tests.itec.assertions.schema import validate_schema
 from truth.truth import AssertThat
