@@ -1,5 +1,21 @@
 ## Проект автоматизациия сервиса itec для UI и API сервисов
 ***
+## Установка
+```
+Установить python 3.11.9
+```
+
+Установить зависимости:
+```
+pip3 freeze > requirements.txt - сохранить зависимости
+pip3 install -r requirements.txt - установить зависимости
+```
+
+Установить менеджер настроек Pydantic
+```
+pip install pydantic-settings - менеджер настроек pydantic
+```
+
 ## Allure
 #### Ubuntu
 ```
@@ -20,11 +36,4 @@ pytest tests.py --alluredir=allure_results
 Формирование отчета:
 ```
 allure serve allure_results 
-```
-Зависимости:
-```
-pip3 freeze > requirements.txt - сохранить зависимости
-pip3 install -r requirements.txt - установить зависимости
-
-pip install pydantic-settings
 ```
