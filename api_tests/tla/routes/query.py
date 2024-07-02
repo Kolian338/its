@@ -10,6 +10,7 @@ class APIQuery(str, Enum):
     IDS = 'ids'
     MSOURCE = 'msource'
     EXTENDED = 'extended'
+    STATE = 'state'
 
     def __str__(self) -> str:
         return self.value

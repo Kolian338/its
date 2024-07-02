@@ -26,23 +26,45 @@ class LightsClient:
         self.path: APIPath = APIPath.LIGHTS
         self.msource: MsourceEnum = tla_settings.msource
 
-    @allure.step('Получение расширенного состояния СО')
-    def get_light_extend_state(self, id: str) -> Response:
+    def _get_light(self, id: str, query: str) -> Response:
         """
-        Получение расширенного состояния только одного светофорного объекта.
+        Общий метод для получения состояния светофорного объекта.
 
         Параметры:
             id: str
                 Уникальный номер объекта (id светофора)
+            query: str
+                Дополнительный параметр запроса
 
         Возвращает:
-            https://gitlab.sccloud.ru/dis/traffic-lights-api/-/blob/develop
-            /readme/example_3.md
+            Ответ от API
         """
         return self.client.get(
             path=self.path,
             params=(
                 f'{APIQuery.ID}={id}'
-                f'&{APIQuery.EXTENDED}'
+                f'&{query}'
                 f'&{APIQuery.MSOURCE}={self.msource}')
         )
+
+    @allure.step('Получение состояния СО')
+    def get_light_state(self, id: str) -> Response:
+        """
+        Получение состояния только одного светофорного объекта.
+
+        Возвращает:
+            https://gitlab.sccloud.ru/dis/traffic-lights-api/-/blob/develop
+            /readme/example_2.md
+        """
+        return self._get_light(id, APIQuery.STATE)
+
+    @allure.step('Получение расширенного состояния СО')
+    def get_light_extend_state(self, id: str) -> Response:
+        """
+        Получение расширенного состояния только одного светофорного объекта.
+
+        Возвращает:
+            https://gitlab.sccloud.ru/dis/traffic-lights-api/-/blob/develop
+            /readme/example_3.md
+        """
+        return self._get_light(id, APIQuery.EXTENDED)
