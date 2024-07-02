@@ -1,10 +1,11 @@
-from api_tests.tla.api.lights import get_lights
-from api_tests.common.base_client import ApiClient
+from api_tests.tla.api.lights import LightsClient
 
 
-def test_get_lights(client: ApiClient):
-    response = get_lights(client=client)
+def test_get_light_extend_state(lights: LightsClient):
+    """
+    Получение расширенного состояния только одного светофорного объекта.
+    """
+    response = lights.get_light_extend_state(id='4097')
     print(response.json())
-
 
     assert response.status_code == 200

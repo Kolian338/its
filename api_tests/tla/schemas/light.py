@@ -1,6 +1,7 @@
-from pydantic import BaseModel, Field
+from enum import StrEnum
 from typing import Any
-from enum import Enum, StrEnum
+
+from pydantic import BaseModel, Field
 
 
 class TdkName(StrEnum):

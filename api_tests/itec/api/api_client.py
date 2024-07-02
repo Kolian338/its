@@ -5,5 +5,5 @@ from settings import itec_settings
 
 @allure.step('Создаем базового клиента api')
 def client_api():
-    develop = itec_settings.itec_url
+    develop = itec_settings.url
     return ApiClient(base_address=develop)
