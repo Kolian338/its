@@ -11,7 +11,7 @@ class Settings(BaseSettings):
     """Общий класс настроек."""
 
     model_config = SettingsConfigDict(
-        env_file='.env',
+        env_file='../.env',
         env_file_encoding='utf-8',
         env_nested_delimiter='.',
         extra='ignore'
@@ -43,6 +43,10 @@ class TlaSettings(Settings):
 
     url: str = 'http://traffic-lights-api-develop.k8.sccloud.ru'
     msource: str = MsourceEnum.BACKMEGAPOLISURL2
+    pg_url: str = (
+        'postgresql+asyncpg:'
+        '//postgres:9Jd7HiH2AE5pLtS_@192.168.32.79:5432/develop_its'
+    )
 
 
 itec_settings = ItecSettings()

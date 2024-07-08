@@ -16,6 +16,13 @@ pip3 install -r requirements.txt - установить зависимости
 pip install pydantic-settings - менеджер настроек pydantic
 ```
 
+Установить асинхронный драйвер PostgreSQL для SqlAlchemy
+```
+pip install asyncpg
+
+pip install greenlet
+```
+
 ## Allure
 #### Ubuntu
 ```
@@ -36,4 +43,12 @@ pytest tests.py --alluredir=allure_results
 Формирование отчета:
 ```
 allure serve allure_results 
+```
+
+## Рекомендации
+
+```
+В файле .env не обрамляйте значения кавычками: код будет работать и с кавычками
+, и без них, а вот при использовании Docker кавычки будут восприняты как часть
+ значения, и это приведёт к ошибке.
 ```
