@@ -1,6 +1,6 @@
 from sqlalchemy import select
 
-from api_tests.tla.models.lights import TrafficLightsObjects
+from api_tests.tla.models.traffic_lights_objects import TrafficLightsObjects
 from core.db import AsyncSessionPg
 
 

@@ -1,5 +1,7 @@
 from enum import Enum
 
+from core.config import tla_settings
+
 
 class APIQuery(str, Enum):
     """
@@ -11,6 +13,7 @@ class APIQuery(str, Enum):
     MSOURCE = 'msource'
     EXTENDED = 'extended'
     STATE = 'state'
+    BACKMEGAPOLISURL = tla_settings.msource
 
     def __str__(self) -> str:
         return self.value

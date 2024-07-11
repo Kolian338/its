@@ -4,7 +4,6 @@ from requests import Response
 from api_tests.common.base_client import ApiClient
 from api_tests.tla.routes.path import APIPath
 from api_tests.tla.routes.query import APIQuery
-from core.config import MsourceEnum, tla_settings
 
 
 class LightsClient:
@@ -24,7 +23,6 @@ class LightsClient:
     def __init__(self, client: ApiClient):
         self.client: ApiClient = client
         self.path: APIPath = APIPath.LIGHTS
-        self.msource: MsourceEnum = tla_settings.msource
 
     def _get_light(self, params) -> Response:
         """
@@ -45,8 +43,8 @@ class LightsClient:
             params=params_string
         )
 
-    @allure.step('Получение состояния СО')
-    def get_lights_state(self, ids: int | list[int]) -> Response:
+    @allure.step('Получение состояния СО по id')
+    def get_lights_state_by_id(self, id: int | list[int]) -> Response:
         """
         Получение состояния одного или списка СО.
 
@@ -55,9 +53,19 @@ class LightsClient:
             /readme/example_2.md
         """
         params = {
-            APIQuery.ID: ids,
-            APIQuery.MSOURCE: self.msource,
+            APIQuery.ID: id,
+            APIQuery.MSOURCE: APIQuery.BACKMEGAPOLISURL,
             APIQuery.STATE: None
+        }
+
+        return self._get_light(params=params)
+
+    @allure.step('Получение состояния СО')
+    def get_lights_state_by_ids(self) -> Response:
+        """Получение полного списка состояния светофорных объектов."""
+        params = {
+            APIQuery.IDS: APIQuery.STATE,
+            APIQuery.MSOURCE: APIQuery.BACKMEGAPOLISURL,
         }
 
         return self._get_light(params=params)
