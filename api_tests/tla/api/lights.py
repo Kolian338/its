@@ -24,7 +24,7 @@ class LightsClient:
         self.client: ApiClient = client
         self.path: APIPath = APIPath.LIGHTS
 
-    def _get_light(self, params) -> Response:
+    def _get_light(self, params: dict) -> Response:
         """
         Общий метод для получения состояния светофорного объекта.
 

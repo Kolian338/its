@@ -41,3 +41,9 @@ class TrafficLightsObjects(Base):
     msource = Column('msource', String, nullable=False)
     mode = Column('mode', String, nullable=True)
     ext_mode = Column('extMode', String, nullable=True)
+
+    def to_dict(self):
+        return {
+            column.name: getattr(self, column.name) for column in
+            self.__table__.columns
+        }

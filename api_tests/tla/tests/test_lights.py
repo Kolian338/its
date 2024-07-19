@@ -5,7 +5,7 @@ import pytest
 from requests import Response
 
 from api_tests.tla.crud.lights import (
-    get_obj_by_extid, read_all_objects_from_db
+    traffic_lights_objects
 )
 from api_tests.tla.schemas.lights import LightStateResponse
 
@@ -42,6 +42,11 @@ class TestLightsState:
 # Для тестов к БД
 @pytest.mark.asyncio
 async def test_async_function(get_async_session):
-    obj = await get_obj_by_extid('4097', get_async_session)
-    objects = await read_all_objects_from_db(get_async_session)
-    print(objects[0].tdk_name)
+    obj_db = await traffic_lights_objects.get_by_attribute(
+        'ext_id',
+        '4097',
+        get_async_session
+    )
+    objects_db = await traffic_lights_objects.get_multi(get_async_session)
+    print(obj_db.ext_id)
+    print(objects_db)
