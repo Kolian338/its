@@ -3,14 +3,14 @@ import pytest_asyncio
 from requests import Response
 
 from api_tests.tla.api.api_client import client_api
-from api_tests.tla.api.lights import LightsClient
+from api_tests.tla.api.endpoints.lights import LightsClient
 from api_tests.tla.assertions.schema import validate_schema
 from api_tests.tla.schemas.lights import LightStateResponse
 from core.db import AsyncSessionPg
 
 
 @pytest_asyncio.fixture
-@allure.title('API клиент для запросов к /lights')
+@allure.title('API клиент для запросов к /lights.')
 async def lights_client() -> LightsClient:
     return LightsClient(
         client=client_api()
@@ -18,7 +18,7 @@ async def lights_client() -> LightsClient:
 
 
 @pytest_asyncio.fixture
-@allure.title('Получение состояния СО.')
+@allure.title('Получение состояния СО по id.')
 async def get_lights_by_id_response(
         lights_client: LightsClient, request
 ) -> Response:
@@ -42,7 +42,7 @@ async def get_lights_state_by_ids_response(
     return response
 
 
-@allure.title('Создается асинхронный генератор сессий')
+@allure.title('Создается асинхронный генератор сессий.')
 @pytest_asyncio.fixture
 async def get_async_session():
     async with AsyncSessionPg() as async_session:

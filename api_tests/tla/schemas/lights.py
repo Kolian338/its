@@ -1,7 +1,30 @@
 from datetime import datetime as dt
 from enum import StrEnum
 
-from pydantic import BaseModel, Field, ConfigDict, field_validator
+from pydantic import (
+    BaseModel, Field, ConfigDict, field_validator, UUID4, validator
+)
+
+
+def validate_data_format_from_str(value: str, field):
+    """Проверка формата даты для схемы для строковых значений."""
+    date_formats = {
+        'time_rcv_its': '%d.%m.%Y %H:%M:%S',
+        'time_lt': '%Y-%m-%dT%H:%M:%S',
+        'time_str': '%Y-%m-%dT%H:%M:%SZ',
+    }
+    date_format = date_formats.get(field.field_name)
+
+    if not dt.strptime(value, date_format):
+        raise ValueError(f'Неверный формат даты, ожидается {date_format}')
+    return value
+
+
+def validate_data_format_from_int(value: int):
+    """Проверка формата даты для схемы для числовых значений."""
+    if not dt.utcfromtimestamp(value):
+        raise ValueError('Неверный формат даты, ожидается timestamp')
+    return value
 
 
 class TdkName(StrEnum):
@@ -22,18 +45,24 @@ class Ext(BaseModel):
 class LightObject(BaseModel):
     """Схема для объекта СО."""
     id: int
+    priority: int = Field(None,)
+    executed: bool = Field(None,)
     tdk: int
-    ext: Ext = Field(None,)
+    cmd_guid: UUID4 = Field(None, )
+    regions: int = Field(None,)
+    ext: Ext = Field(None, )
     time_rcv: int
-    lflags: int = Field(None,)
+    lflags: int = Field(None, )
     offset: int
     extmode: int
     lstate: int
     lcycle: int
+    ltakt: int = Field(None,)
     source: int
     command: int
     mode: int
     last: int
+    code: int = Field(None,)
     lsec: int
     lphase: int
     lsource: int
@@ -49,14 +78,21 @@ class LightObject(BaseModel):
     cmd_ast: int
     cycle: int
     extsource: int
+    result: str = Field(None,)
+    time: float = Field(None,)
+    time_lt: str = Field(None,)
+    time_str: str = Field(None,)
+    time_utc: int = Field(None,)
 
     model_config = ConfigDict(extra='forbid')
 
-    @field_validator('time_rcv_its')
-    def validate_data_format(cls, value: str):
-        if not dt.strptime(value, '%d.%m.%Y %H:%M:%S'):
-            raise ValueError('Ошибка даты')
-        return value
+    _validate_data_str = field_validator(
+        'time_rcv_its', 'time_lt', 'time_str',
+    )(validate_data_format_from_str)
+
+    _validate_data_int = field_validator(
+        'time_utc',
+    )(validate_data_format_from_int)
 
 
 class LightsObjects(LightObject):
