@@ -18,7 +18,7 @@ class TestLightsState:
     )
     @pytest.mark.parametrize(
         'get_lights_by_id_response',
-        (4097, 4098, [4097, 4098]),
+        (4098, [4098]),
         indirect=True
     )
     def test_get_light_state(

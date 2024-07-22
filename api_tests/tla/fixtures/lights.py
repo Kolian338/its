@@ -31,7 +31,7 @@ async def get_lights_by_id_response(
 
 
 @pytest_asyncio.fixture
-@allure.title('Получение списка СО.')
+@allure.title('Получение списка СО по ids.')
 async def get_lights_state_by_ids_response(
         lights_client: LightsClient, request
 ) -> Response:

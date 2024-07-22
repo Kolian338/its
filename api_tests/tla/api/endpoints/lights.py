@@ -23,6 +23,9 @@ class LightsClient:
     def __init__(self, client: ApiClient):
         self.client: ApiClient = client
         self.path: APIPath = APIPath.LIGHTS
+        self.base_params: dict = {
+            APIQuery.MSOURCE: APIQuery.BACKMEGAPOLISURL,
+        }
 
     def _get_light(self, params: dict) -> Response:
         """
@@ -52,20 +55,23 @@ class LightsClient:
             https://gitlab.sccloud.ru/dis/traffic-lights-api/-/blob/develop
             /readme/example_2.md
         """
-        params = {
-            APIQuery.ID: id,
-            APIQuery.MSOURCE: APIQuery.BACKMEGAPOLISURL,
-            APIQuery.STATE: None
-        }
+        new_params = self.base_params.copy()
+        new_params.update(
+            {
+                APIQuery.ID: id,
+                APIQuery.STATE: None
+            }
+        )
+        return self._get_light(params=new_params)
 
-        return self._get_light(params=params)
-
-    @allure.step('Получение состояния СО')
+    @allure.step('Получение списка состояний СО по ids.')
     def get_lights_state_by_ids(self) -> Response:
         """Получение полного списка состояния светофорных объектов."""
-        params = {
-            APIQuery.IDS: APIQuery.STATE,
-            APIQuery.MSOURCE: APIQuery.BACKMEGAPOLISURL,
-        }
+        new_params = self.base_params.copy()
+        new_params.update(
+            {
+                APIQuery.IDS: APIQuery.STATE,
+            }
+        )
 
-        return self._get_light(params=params)
+        return self._get_light(params=new_params)
