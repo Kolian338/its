@@ -2,7 +2,7 @@ from datetime import datetime as dt
 from enum import StrEnum
 
 from pydantic import (
-    BaseModel, Field, ConfigDict, field_validator, UUID4, validator
+    BaseModel, Field, ConfigDict, field_validator, UUID4,
 )
 
 
@@ -45,11 +45,11 @@ class Ext(BaseModel):
 class LightObject(BaseModel):
     """Схема для объекта СО."""
     id: int
-    priority: int = Field(None,)
-    executed: bool = Field(None,)
+    priority: int = Field(None, )
+    executed: bool = Field(None, )
     tdk: int
     cmd_guid: UUID4 = Field(None, )
-    regions: int = Field(None,)
+    regions: int = Field(None, )
     ext: Ext = Field(None, )
     time_rcv: int
     lflags: int = Field(None, )
@@ -57,12 +57,12 @@ class LightObject(BaseModel):
     extmode: int
     lstate: int
     lcycle: int
-    ltakt: int = Field(None,)
+    ltakt: int = Field(None, )
     source: int
     command: int
     mode: int
     last: int
-    code: int = Field(None,)
+    code: int = Field(None, )
     lsec: int
     lphase: int
     lsource: int
@@ -78,13 +78,11 @@ class LightObject(BaseModel):
     cmd_ast: int
     cycle: int
     extsource: int
-    result: str = Field(None,)
-    time: float = Field(None,)
-    time_lt: str = Field(None,)
-    time_str: str = Field(None,)
-    time_utc: int = Field(None,)
-
-    model_config = ConfigDict(extra='forbid')
+    result: str = Field(None, )
+    time: float = Field(None, )
+    time_lt: str = Field(None, )
+    time_str: str = Field(None, )
+    time_utc: int = Field(None, )
 
     _validate_data_str = field_validator(
         'time_rcv_its', 'time_lt', 'time_str',
@@ -94,6 +92,8 @@ class LightObject(BaseModel):
         'time_utc',
     )(validate_data_format_from_int)
 
+    model_config = ConfigDict(extra='forbid')
+
 
 class LightsObjects(LightObject):
     mag: int
@@ -102,12 +102,46 @@ class LightsObjects(LightObject):
     way: int | None
 
 
-class LightStateResponse(BaseModel):
+class CommonResponse(BaseModel):
+    """Общая схема для ответов."""
+    code: str
+    amount: int
+
+
+class LightStateResponse(CommonResponse):
     """
     Схема ответа по запросу:
     curl --location 'http://traffic-lights-api-develop.k8.sccloud.ru/lights?
     id=4098&state=null&msource=backMegapolisUrl2'
     """
-    code: str
-    amount: int
     info: list[LightObject] = Field(..., min_length=1)
+
+
+class SignalProgram(BaseModel):
+    """Схема для сигнальной программы."""
+    num: int
+    com: int
+    ast: int
+    cmd_guid: str = Field(None, )
+    result: str = Field(None, )
+    source: int
+    ig: list[int]
+    id: int
+    bcycle: int
+    state: int
+    cycle: int
+    mode: int
+    lens: list[int]
+    code: int = Field(None, )
+    bast: int
+    blens: list[int]
+    phases: list[int]
+    source_name: str
+    state_name: str
+    mode_name: str
+
+    model_config = ConfigDict(extra='forbid')
+
+
+class SignalProgramResponse(CommonResponse):
+    info: list[SignalProgram] = Field(..., min_length=1)

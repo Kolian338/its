@@ -14,6 +14,8 @@ class APIQuery(str, Enum):
     EXTENDED = 'extended'
     STATE = 'state'
     BACKMEGAPOLISURL = tla_settings.msource
+    AST = 'ast'
+    ALL = 'all'
 
     def __str__(self) -> str:
         return self.value

@@ -75,3 +75,31 @@ class LightsClient:
         )
 
         return self._get_light(params=new_params)
+
+    @allure.step('Получение текущей сигнальной программы СО.')
+    def get_current_signal_program_by_id(
+            self, id: int | list[int]
+    ) -> Response:
+        """Получение текущей сигнальной программы СО."""
+        new_params = self.base_params.copy()
+        new_params.update(
+            {
+                APIQuery.ID: id,
+                APIQuery.AST: None,
+            }
+        )
+
+        return self._get_light(params=new_params)
+
+    @allure.step('Получение полного списка текущих сигнальных программ СО.')
+    def get_current_signal_program_by_ids(self) -> Response:
+        """Получение полного списка текущих сигнальных программ СО."""
+        new_params = self.base_params.copy()
+        new_params.update(
+            {
+                APIQuery.IDS: APIQuery.ALL,
+                APIQuery.AST: None,
+            }
+        )
+
+        return self._get_light(params=new_params)

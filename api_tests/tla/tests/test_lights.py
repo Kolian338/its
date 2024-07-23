@@ -9,26 +9,28 @@ from api_tests.tla.assertions.schema import validate_schema
 from api_tests.tla.crud.lights import (
     traffic_lights_objects
 )
-from api_tests.tla.schemas.lights import LightStateResponse
+from api_tests.tla.schemas.lights import (
+    LightStateResponse, SignalProgramResponse
+)
 
 
 @pytest.mark.asyncio
 @allure.feature('Lights')
 @allure.story('Lights API')
-class TestLightsState:
+class TestState:
     @allure.title(
         'Получение состояния одного/нескольких светофорных объектов.'
     )
     @pytest.mark.parametrize(
-        'ext_id',
+        'id',
         (4098, [4098])
     )
     def test_get_light_state(
             self,
-            ext_id: int,
+            id: int,
             lights_client: LightsClient,
     ):
-        response = lights_client.get_lights_state_by_id(ext_id)
+        response = lights_client.get_lights_state_by_id(id)
         LightStateResponse(**response.json())
         validate_schema(
             response.json(), LightStateResponse.model_json_schema()
@@ -47,6 +49,43 @@ class TestLightsState:
         LightStateResponse(**response.json())
         validate_schema(
             response.json(), LightStateResponse.model_json_schema()
+        )
+        assert response.status_code == HTTPStatus.OK
+
+
+@pytest.mark.asyncio
+class TestSignalProgram:
+    @allure.title(
+        'Получение сигнальных программ СО.'
+    )
+    @pytest.mark.parametrize(
+        'id',
+        (4098, [4098])
+    )
+    def test_get_light_signal_program(
+            self,
+            id: int,
+            lights_client: LightsClient,
+    ):
+        response = lights_client.get_current_signal_program_by_id(id)
+        SignalProgramResponse(**response.json())
+        validate_schema(
+            response.json(), SignalProgramResponse.model_json_schema()
+        )
+
+        assert response.status_code == HTTPStatus.OK
+
+    @allure.title(
+        'Получение полного списка текущих сигнальных программ CО.'
+    )
+    def test_get_all_signal_programs(
+            self,
+            lights_client: LightsClient,
+    ):
+        response = lights_client.get_current_signal_program_by_ids()
+        SignalProgramResponse(**response.json())
+        validate_schema(
+            response.json(), SignalProgramResponse.model_json_schema()
         )
         assert response.status_code == HTTPStatus.OK
 

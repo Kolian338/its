@@ -2,7 +2,7 @@ from http import HTTPStatus
 from http.client import HTTPException
 
 from api_tests.tla.crud.lights import traffic_lights_objects
-from api_tests.tla.models.traffic_lights_objects import TrafficLightsObjects
+from api_tests.tla.models.light_objects import TrafficLightsObjects
 from core.db import AsyncSessionPg
 
 
