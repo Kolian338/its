@@ -9,7 +9,7 @@ from api_tests.tla.assertions.schema import validate_schema
 from api_tests.tla.crud.lights import (
     traffic_lights_objects
 )
-from api_tests.tla.schemas.lights import (
+from api_tests.tla.schemas.response.lights import (
     LightStateResponse, SignalProgramResponse
 )
 

@@ -1,5 +1,6 @@
 import allure
 import pytest_asyncio
+import pytest
 
 from api_tests.tla.api.api_client import client_api
 from api_tests.tla.api.endpoints.lights import LightsClient
