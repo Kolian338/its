@@ -54,52 +54,62 @@ class LightsClient:
         new_params.update(additional_params)
         return new_params
 
-    @allure.step('Получение состояния СО по id')
-    def get_lights_state_by_id(self, id: int | list[int]) -> Response:
+    @allure.step('Получение состояния светофорных объектов')
+    def get_lights_state(
+            self, id: int | list[int] = None
+    ) -> Response:
         """
-        Получение состояния одного или списка СО.
+        Получение состояния одного или списка светофорных объектов (СО).
+
+        Параметры:
+            id: int | list[int] | None
+                Идентификатор одного СО или список идентификаторов СО.
+                Если None, возвращает полный список состояния светофорных
+                 объектов.
 
         Возвращает:
-            https://gitlab.sccloud.ru/dis/traffic-lights-api/-/blob/develop
-            /readme/example_2.md
+            Объект Response.
         """
-        additional_params = {
-            APIQuery.ID: id,
-            APIQuery.STATE: None
-        }
+        if id is None:
+            additional_params = {
+                APIQuery.IDS: APIQuery.STATE,
+            }
+        else:
+            additional_params = {
+                APIQuery.ID: id,
+                APIQuery.STATE: None,
+            }
 
-        new_params = self._get_updated_params(additional_params)
-        return self._get_light(params=new_params)
-
-    @allure.step('Получение списка состояний СО по ids.')
-    def get_lights_state_by_ids(self) -> Response:
-        """Получение полного списка состояния светофорных объектов."""
-        additional_params = {
-            APIQuery.IDS: APIQuery.STATE,
-        }
         new_params = self._get_updated_params(additional_params)
         return self._get_light(params=new_params)
 
     @allure.step('Получение текущей сигнальной программы СО.')
-    def get_current_signal_program_by_id(
-            self, id: int | list[int]
+    def get_signal_program(
+            self, id: int | list[int] = None
     ) -> Response:
-        """Получение текущей сигнальной программы СО."""
-        additional_params = {
-            APIQuery.ID: id,
-            APIQuery.AST: None,
-        }
+        """
+        Получение текущей сигнальной программы СО или полного списка текущих
+         сигнальных программ СО.
 
-        new_params = self._get_updated_params(additional_params)
-        return self._get_light(params=new_params)
+        Параметры:
+            id: int | list[int] | None
+                Идентификатор одного СО или список идентификаторов СО.
+                Если None, возвращает полный список текущих
+                 сигнальных программ СО.
 
-    @allure.step('Получение полного списка текущих сигнальных программ СО.')
-    def get_current_signal_program_by_ids(self) -> Response:
-        """Получение полного списка текущих сигнальных программ СО."""
-        additional_params = {
-            APIQuery.IDS: APIQuery.ALL,
-            APIQuery.AST: None,
-        }
+        Возвращает:
+            Объект Response.
+        """
+        if id is None:
+            additional_params = {
+                APIQuery.IDS: APIQuery.ALL,
+                APIQuery.AST: None,
+            }
+        else:
+            additional_params = {
+                APIQuery.ID: id,
+                APIQuery.AST: None,
+            }
 
         new_params = self._get_updated_params(additional_params)
         return self._get_light(params=new_params)

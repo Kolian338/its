@@ -32,6 +32,7 @@ class TdkName(StrEnum):
     COMKON = 'Комкон'
     AUTHOMATIC = 'Автоматика Д'
     COMSIGNAL = 'Комсигнал'
+    NOT_DEFINED = 'Не определено'
 
 
 class Ext(BaseModel):
@@ -119,26 +120,26 @@ class LightStateResponse(CommonResponse):
 
 class SignalProgram(BaseModel):
     """Схема для сигнальной программы."""
-    num: int
-    com: int
-    ast: int
+    num: int | None = Field(None, )
+    com: int = Field(None, )
+    ast: int = Field(None, )
     cmd_guid: str = Field(None, )
     result: str = Field(None, )
-    source: int
-    ig: list[int]
+    source: int = Field(None, )
+    ig: list[int] = Field(None, )
     id: int
-    bcycle: int
-    state: int
-    cycle: int
-    mode: int
-    lens: list[int]
+    bcycle: int = Field(None, )
+    state: int = Field(None, )
+    cycle: int = Field(None, )
+    mode: int = Field(None, )
+    lens: list[int] = Field(None, )
     code: int = Field(None, )
-    bast: int
-    blens: list[int]
-    phases: list[int]
-    source_name: str
-    state_name: str
-    mode_name: str
+    bast: int = Field(None, )
+    blens: list[int] = Field(None, )
+    phases: list[int] = Field(None, )
+    source_name: str = Field(None, )
+    state_name: str = Field(None, )
+    mode_name: str = Field(None, )
 
     model_config = ConfigDict(extra='forbid')
 

@@ -9,7 +9,7 @@ from api_tests.tla.api.endpoints.dispshedule import DispScheduleClient
 @pytest.mark.asyncio
 class TestDispShedule:
     @allure.title(
-        'Тесты дисп.расписаний.'
+        'Создание дисп.расписаний.'
     )
     # @pytest.mark.parametrize(
     #     'id',
