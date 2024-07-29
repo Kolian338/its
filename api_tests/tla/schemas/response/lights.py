@@ -5,6 +5,8 @@ from pydantic import (
     BaseModel, Field, ConfigDict, field_validator, UUID4,
 )
 
+from api_tests.tla.schemas.response.common import CommonResponse
+
 
 def validate_data_format_from_str(value: str, field):
     """Проверка формата даты для схемы для строковых значений."""
@@ -101,12 +103,6 @@ class LightsObjects(LightObject):
     longitude: float
     latitude: float
     way: int | None
-
-
-class CommonResponse(BaseModel):
-    """Общая схема для ответов."""
-    code: str
-    amount: int
 
 
 class LightStateResponse(CommonResponse):

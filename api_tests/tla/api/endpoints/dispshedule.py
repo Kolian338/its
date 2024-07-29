@@ -1,25 +1,54 @@
 from requests import Response
 
-from api_tests.common.base_client import ApiClient
-from api_tests.tla.routes.path import APIPath
+from api_tests.tla.api.endpoints.base import ClientBase
+from api_tests.tla.routes.query import APIQuery
 from api_tests.tla.schemas.request.dispshedule import DispSheduleRequest
 
 
-class DispScheduleClient:
+class DispScheduleClient(ClientBase):
     """
     Класс являющийся клиентом для запросов к эндпоинту /dispshedule API.
     """
 
-    def __init__(self, client: ApiClient):
+    def get_disp_shedule(
+            self, ids: str
+    ) -> Response:
         """
-        Инициализация клиента для работы с API диспетчерского расписания.
+         Получает диспетчерское расписание на основе заданных параметров.
 
-        :param client: Экземпляр клиента API.
-        """
-        self.client: ApiClient = client
-        self.path: APIPath = APIPath.DISP_SCHEDULE
+         Параметры:
+         ----------
+         ids : str
+             Идентификаторы расписаний. Может быть 'full' или 'all'.
 
-    def create_disp_shedule(self, payload: DispSheduleRequest) -> Response:
+         Возвращает:
+         -----------
+         Response
+             Объект ответа, содержащий данные диспетчерского расписания.
+
+         Исключения:
+         -----------
+         ValueError
+             Если передан недопустимый параметр ids.
+         """
+        if ids == APIQuery.FULL:
+            additional_params = {
+                APIQuery.IDS: APIQuery.FULL,
+            }
+        elif ids == APIQuery.ALL:
+            additional_params = {
+                APIQuery.IDS: APIQuery.ALL,
+            }
+        else:
+            raise ValueError('Нет такого параметра')
+
+        new_params = self.get_updated_params(additional_params)
+        return self.get(new_params)
+
+    def create_disp_shedule(
+            self,
+            payload: DispSheduleRequest
+    ) -> Response:
         """
         Создание диспетчерского расписания с помощью API.
 
