@@ -2,7 +2,7 @@ import allure
 import pytest
 
 from api_tests.tla.api.endpoints.lights import LightsClient
-from api_tests.tla.assertions.base import validate_success_response
+from api_tests.tla.assertions.base import validate_response
 from api_tests.tla.schemas.response.lights import (
     LightStateResponse, SignalProgramResponse
 )
@@ -25,7 +25,7 @@ class TestState:
             lights_client: LightsClient,
     ):
         response = lights_client.get_lights_state(id)
-        validate_success_response(response, LightStateResponse)
+        validate_response(response, LightStateResponse)
 
     @allure.title(
         'Получение состояния списка светофорных объектов.'
@@ -35,7 +35,7 @@ class TestState:
             lights_client: LightsClient,
     ):
         response = lights_client.get_lights_state()
-        validate_success_response(response, LightStateResponse)
+        validate_response(response, LightStateResponse)
 
 
 @pytest.mark.asyncio
@@ -53,7 +53,7 @@ class TestSignalProgram:
             lights_client: LightsClient,
     ):
         response = lights_client.get_signal_program(id)
-        validate_success_response(response, SignalProgramResponse)
+        validate_response(response, SignalProgramResponse)
 
     @allure.title(
         'Получение полного списка текущих сигнальных программ CО.'
@@ -63,4 +63,4 @@ class TestSignalProgram:
             lights_client: LightsClient,
     ):
         response = lights_client.get_signal_program()
-        validate_success_response(response, SignalProgramResponse)
+        validate_response(response, SignalProgramResponse)

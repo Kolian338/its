@@ -2,13 +2,19 @@ from http import HTTPStatus
 
 import allure
 import pytest
+from assertpy import assert_that
 
 from api_tests.tla.api.endpoints.dispshedule import DispScheduleClient
-from api_tests.tla.assertions.base import validate_success_response
-from api_tests.tla.routes.query import APIQuery
-from api_tests.tla.schemas.response.disp_schedule import (
-    DispSheduleFullResponse, DispSheduleAllResponse
+from api_tests.tla.assertions.base import (
+    validate_response,
 )
+from api_tests.tla.routes.query import APIQuery
+from api_tests.tla.schemas.request.disp_shedule import DispSheduleRequest
+from api_tests.tla.schemas.response.disp_schedule import (
+    DispSheduleFullResponse, DispSheduleAllResponse,
+    DispSheduleCreateUpdateResponse
+)
+from core.db import AsyncSessionPg
 
 
 @pytest.mark.asyncio
@@ -36,18 +42,24 @@ class TestDispShedule:
         полного списка расписаний (ALL) и краткого списка расписаний (FULL).
         """
         response = disp_schedule_client.get_disp_shedule(ids=args)
-        validate_success_response(response, expected_schema)
+        validate_response(response, expected_schema)
 
     @allure.title(
-        'Создание дисп.расписаний.'
+        'Создание дисп.расписания.'
     )
-    def test_create_disp_schedule(
+    @pytest.mark.xfail(
+        reason="Ждет фикса на староне API TLA - не добавлен ключ region"
+    )
+    async def test_create_disp_schedule(
             self,
-            disp_schedule_data,
+            disp_schedule_data: DispSheduleRequest,
             disp_schedule_client: DispScheduleClient,
+            get_async_session: AsyncSessionPg
     ):
-        response = disp_schedule_client.create_disp_shedule(disp_schedule_data)
-        print(response.text)
-        print(response.request.body)
-
-        assert response.status_code == HTTPStatus.OK
+        response = await disp_schedule_client.create_disp_shedule(
+            payload=disp_schedule_data
+        )
+        validate_response(
+            response, DispSheduleCreateUpdateResponse
+        )
+        assert_that(response.status_code).is_equal_to(HTTPStatus.OK)

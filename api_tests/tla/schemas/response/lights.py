@@ -5,7 +5,7 @@ from pydantic import (
     BaseModel, Field, ConfigDict, field_validator, UUID4,
 )
 
-from api_tests.tla.schemas.response.common import CommonResponse
+from api_tests.tla.schemas.common import CommonResponse
 
 
 def validate_data_format_from_str(value: str, field):

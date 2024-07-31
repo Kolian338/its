@@ -2,7 +2,7 @@ from requests import Response
 
 from api_tests.tla.api.endpoints.base import ClientBase
 from api_tests.tla.routes.query import APIQuery
-from api_tests.tla.schemas.request.dispshedule import DispSheduleRequest
+from api_tests.tla.schemas.request.disp_shedule import DispSheduleRequest
 
 
 class DispScheduleClient(ClientBase):
@@ -45,7 +45,7 @@ class DispScheduleClient(ClientBase):
         new_params = self.get_updated_params(additional_params)
         return self.get(new_params)
 
-    def create_disp_shedule(
+    async def create_disp_shedule(
             self,
             payload: DispSheduleRequest
     ) -> Response:

@@ -5,7 +5,6 @@ from api_tests.tla.api.api_client import client_api
 from api_tests.tla.api.endpoints.lights import LightsClient
 from api_tests.tla.routes.path import APIPath
 from api_tests.tla.routes.query import APIQuery
-from core.db import AsyncSessionPg
 
 
 @pytest_asyncio.fixture
@@ -20,8 +19,4 @@ async def lights_client() -> LightsClient:
     )
 
 
-@allure.title('Создается асинхронный генератор сессий.')
-@pytest_asyncio.fixture
-async def get_async_session():
-    async with AsyncSessionPg() as async_session:
-        yield async_session
+

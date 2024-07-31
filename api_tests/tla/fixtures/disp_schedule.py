@@ -5,7 +5,7 @@ from api_tests.tla.api.api_client import client_api
 from api_tests.tla.api.endpoints.dispshedule import DispScheduleClient
 from api_tests.tla.routes.path import APIPath
 from api_tests.tla.routes.query import APIQuery
-from api_tests.tla.schemas.request.dispshedule import DispSheduleRequest
+from api_tests.tla.schemas.request.disp_shedule import DispSheduleRequest
 
 
 @pytest.fixture
