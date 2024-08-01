@@ -8,6 +8,7 @@ class APIPath(str, Enum):
 
     LIGHTS = '/lights'
     DISP_SCHEDULE = '/dispshedule'
+    GREEN_STREET = '/greenstreet'
 
     def __str__(self) -> str:
         return self.value

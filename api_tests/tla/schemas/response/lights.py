@@ -2,10 +2,10 @@ from datetime import datetime as dt
 from enum import StrEnum
 
 from pydantic import (
-    BaseModel, Field, ConfigDict, field_validator, UUID4,
+    Field, ConfigDict, field_validator, UUID4,
 )
 
-from api_tests.tla.schemas.common import CommonResponse
+from api_tests.tla.schemas.common import CommonResponse, MyBaseModel
 
 
 def validate_data_format_from_str(value: str, field):
@@ -37,7 +37,7 @@ class TdkName(StrEnum):
     NOT_DEFINED = 'Не определено'
 
 
-class Ext(BaseModel):
+class Ext(MyBaseModel):
     time_rcv: int | None
     packed: int | None
     body: str | None
@@ -45,7 +45,7 @@ class Ext(BaseModel):
     model_config = ConfigDict(extra='forbid')
 
 
-class LightObject(BaseModel):
+class LightObject(MyBaseModel):
     """Схема для объекта СО."""
     id: int
     priority: int = Field(None, )
@@ -114,7 +114,7 @@ class LightStateResponse(CommonResponse):
     info: list[LightObject] = Field(..., min_length=1)
 
 
-class SignalProgram(BaseModel):
+class SignalProgram(MyBaseModel):
     """Схема для сигнальной программы."""
     num: int | None = Field(None, )
     com: int = Field(None, )

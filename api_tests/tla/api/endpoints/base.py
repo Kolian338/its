@@ -2,6 +2,7 @@ from requests import Response
 
 from api_tests.common.base_client import ApiClient
 from api_tests.tla.routes.path import APIPath
+from api_tests.tla.routes.query import APIQuery
 
 
 class ClientBase:
@@ -73,3 +74,38 @@ class ClientBase:
         new_params = self.base_params.copy()
         new_params.update(additional_params)
         return new_params
+
+    def get_full_or_all_objs(
+            self, ids: str
+    ) -> Response:
+        """
+         Получает объекты на основе заданных параметров.
+
+         Параметры:
+         ----------
+         ids : str
+             Идентификаторы расписаний. Может быть 'full' или 'all'.
+
+         Возвращает:
+         -----------
+         Response
+             Объект ответа, содержащий данные.
+
+         Исключения:
+         -----------
+         ValueError
+             Если передан недопустимый параметр ids.
+         """
+        if ids == APIQuery.FULL:
+            additional_params = {
+                APIQuery.IDS: APIQuery.FULL,
+            }
+        elif ids == APIQuery.ALL:
+            additional_params = {
+                APIQuery.IDS: APIQuery.ALL,
+            }
+        else:
+            raise ValueError('Нет такого параметра')
+
+        new_params = self.get_updated_params(additional_params)
+        return self.get(new_params)

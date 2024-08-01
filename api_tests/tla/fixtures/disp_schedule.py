@@ -1,23 +1,16 @@
 import allure
 import pytest
 
-from api_tests.tla.api.api_client import client_api
 from api_tests.tla.api.endpoints.dispshedule import DispScheduleClient
+from api_tests.tla.fixtures.base import create_api_client
 from api_tests.tla.routes.path import APIPath
-from api_tests.tla.routes.query import APIQuery
 from api_tests.tla.schemas.request.disp_shedule import DispSheduleRequest
 
 
 @pytest.fixture
 @allure.title('API клиент для запросов к /dispshedule.')
 def disp_schedule_client() -> DispScheduleClient:
-    return DispScheduleClient(
-        client=client_api(),
-        path=APIPath.DISP_SCHEDULE,
-        base_params={
-            APIQuery.MSOURCE: APIQuery.BACKMEGAPOLISURL,
-        }
-    )
+    return create_api_client(DispScheduleClient, APIPath.DISP_SCHEDULE)
 
 
 @pytest.fixture

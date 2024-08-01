@@ -6,5 +6,4 @@ from core.config import tla_settings
 
 @allure.step('Создаем базового клиента api')
 def client_api():
-    develop = tla_settings.url
-    return ApiClient(base_address=develop)
+    return ApiClient(base_address=tla_settings.url)

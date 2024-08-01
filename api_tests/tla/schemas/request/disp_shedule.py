@@ -2,14 +2,15 @@ from datetime import datetime as dt
 
 from faker import Faker
 from pydantic import (
-    BaseModel, Field, ConfigDict, )
+    Field, ConfigDict, )
 
 from api_tests.tla.routes.query import APIQuery
+from api_tests.tla.schemas.common import MyBaseModel
 
 fake = Faker()
 
 
-class Obj(BaseModel):
+class Obj(MyBaseModel):
     id: str = Field('4097')
     guid: str = Field(default_factory=fake.uuid4)
     command: str = Field('64')
@@ -17,7 +18,7 @@ class Obj(BaseModel):
     model_config = ConfigDict(extra='forbid')
 
 
-class DispShedule(BaseModel):
+class DispShedule(MyBaseModel):
     guid: str = Field(default_factory=fake.uuid4)
     caption: str = Field(
         default_factory=lambda: f'Тестовое расписание. AUTO:{dt.now()}')
@@ -30,7 +31,7 @@ class DispShedule(BaseModel):
     model_config = ConfigDict(extra='forbid')
 
 
-class DispSheduleRequest(BaseModel):
+class DispSheduleRequest(MyBaseModel):
     msource: str = Field(APIQuery.BACKMEGAPOLISURL)
     set_disp_shedule: list[DispShedule] = Field(
         default_factory=lambda: [DispShedule()], alias='SetDispShedule'

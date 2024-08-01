@@ -1,11 +1,11 @@
 from pydantic import (
-    BaseModel, Field, ConfigDict, field_validator, model_validator
+    Field, ConfigDict, field_validator,
 )
 
-from api_tests.tla.schemas.common import CommonResponse
+from api_tests.tla.schemas.common import CommonResponse, MyBaseModel
 
 
-class ObjBase(BaseModel):
+class ObjBase(MyBaseModel):
     id: int
 
     model_config = ConfigDict(extra='forbid')
@@ -23,7 +23,7 @@ class ObjCreateUpdate(ObjBase):
     guid: str = Field(None, )
 
 
-class DispSheduleBase(BaseModel):
+class DispSheduleBase(MyBaseModel):
     active: bool
     timeoff: int
     db_rec_set: int = Field(..., alias='dbRecSet')
@@ -40,7 +40,7 @@ class DispSheduleBase(BaseModel):
     model_config = ConfigDict(extra='forbid')
 
 
-class DispSheduleCreateUpdate(BaseModel):
+class DispSheduleCreateUpdate(MyBaseModel):
     timeoff: str
     result: str
     timeon: str

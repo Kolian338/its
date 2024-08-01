@@ -1,9 +1,14 @@
 from pydantic import (
-    BaseModel,
+    BaseModel, ConfigDict
 )
 
 
-class CommonResponse(BaseModel):
+class MyBaseModel(BaseModel):
+    """Кастомный базовый класс Pydantic."""
+    model_config = ConfigDict(extra='forbid')
+
+
+class CommonResponse(MyBaseModel):
     """Общая схема для ответов."""
     code: str
     amount: int
