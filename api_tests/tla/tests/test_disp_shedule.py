@@ -47,19 +47,27 @@ class TestDispShedule:
     @allure.title(
         'Создание дисп.расписания.'
     )
-    @pytest.mark.xfail(
-        reason="Ждет фикса на староне API TLA - не добавлен ключ region"
-    )
-    async def test_create_disp_schedule(
+    def test_create_disp_schedule(
             self,
             disp_schedule_data: DispSheduleRequest,
             disp_schedule_client: DispScheduleClient,
-            get_async_session: AsyncSessionPg
     ):
-        response = await disp_schedule_client.create_disp_shedule(
+        response = disp_schedule_client.create_disp_shedule(
             payload=disp_schedule_data
         )
         validate_response(
             response, DispSheduleCreateUpdateResponse
         )
         assert_that(response.status_code).is_equal_to(HTTPStatus.OK)
+
+    @allure.title(
+        'Обновление дисп.расписания.'
+    )
+    def test_update_disp_schedule(
+            self,
+            disp_schedule_data: DispSheduleRequest,
+            disp_schedule_client: DispScheduleClient,
+
+    ):
+        # Написать тест для проверки обновления
+        ...

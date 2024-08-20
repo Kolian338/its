@@ -15,5 +15,5 @@ def disp_schedule_client() -> DispScheduleClient:
 
 @pytest.fixture
 @allure.title('Создаение объекта дисп.раписания.')
-def disp_schedule_data():
+def disp_schedule_data() -> DispSheduleRequest:
     return DispSheduleRequest()

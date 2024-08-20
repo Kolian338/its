@@ -42,7 +42,7 @@ class TlaSettings(Settings):
     """
 
     url: str = 'http://traffic-lights-api-develop.k8.sccloud.ru'
-    msource: str = MsourceEnum.BACKMEGAPOLISURL
+    msource: str = MsourceEnum.BACKMEGAPOLISURL2
     pg_url: str = (
         'postgresql+asyncpg:'
         '//postgres:9Jd7HiH2AE5pLtS_@192.168.32.79:5432/develop_its'

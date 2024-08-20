@@ -2,6 +2,8 @@ from pydantic import (
     Field, ConfigDict, field_validator,
 )
 
+from api_tests.tla.api.validators.disp_schedule import (
+    region_must_be_between_1_and_32)
 from api_tests.tla.schemas.common import CommonResponse, MyBaseModel
 
 
@@ -18,6 +20,12 @@ class ObjFull(ObjBase):
 
 class ObjCreateUpdate(ObjBase):
     command: int
+    result: str = Field(None, )
+    code: int = Field(None, )
+    guid: str = Field(None, )
+
+
+class Tasks(MyBaseModel):
     result: str = Field(None, )
     code: int = Field(None, )
     guid: str = Field(None, )
@@ -41,6 +49,7 @@ class DispSheduleBase(MyBaseModel):
 
 
 class DispSheduleCreateUpdate(MyBaseModel):
+    time_off: str = Field(..., alias='TimeOff')
     timeoff: str
     result: str
     timeon: str
@@ -51,6 +60,12 @@ class DispSheduleCreateUpdate(MyBaseModel):
     caption: str
     type_name: str = Field(..., alias='typeName')
     id: str = Field(None, )
+    region: int
+    day_of_week: int = Field(None, alias='DayOfWeek')
+    db_rec_set: int = Field(None, alias='dbRecSet')
+    db_cmd_set: int = Field(None, alias='dbCmdSet')
+    tasks: list[Tasks] = Field(None, )
+    time_on: str = Field(None, alias='TimeOn')
 
     @field_validator('result', mode='after')
     def validate_result(cls, value):
@@ -63,6 +78,10 @@ class DispSheduleCreateUpdate(MyBaseModel):
         if value != 201:
             raise ValueError("Коде должен быть = 201")
         return value
+
+    _validate_region = field_validator(
+        'region'
+    )(region_must_be_between_1_and_32)
 
 
 class DispSheduleAll(DispSheduleBase):

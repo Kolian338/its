@@ -17,7 +17,7 @@ class DispScheduleClient(ClientBase):
         """
         return self.get_full_or_all_objs(ids)
 
-    async def create_disp_shedule(
+    def create_disp_shedule(
             self,
             payload: DispSheduleRequest
     ) -> Response:

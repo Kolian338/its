@@ -7,11 +7,11 @@ from api_tests.tla.routes.query import APIQuery
 from core.db import AsyncSessionPg
 
 
-@allure.title('Создается асинхронный генератор сессий.')
-@pytest_asyncio.fixture
-async def get_async_session():
-    async with AsyncSessionPg() as async_session:
-        yield async_session
+# @allure.title('Создается асинхронный генератор сессий.')
+# @pytest_asyncio.fixture
+# async def get_async_session():
+#     async with AsyncSessionPg() as async_session:
+#         yield async_session
 
 
 def create_api_client(client_class, path) -> type(ClientBase):

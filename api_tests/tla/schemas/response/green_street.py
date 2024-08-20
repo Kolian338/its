@@ -13,7 +13,7 @@ class PartBase(MyBaseModel):
 
 
 class PartFull(PartBase):
-    gs_caption: str
+    gs_caption: str = Field(None, )
 
 
 class GreenRouteBase(MyBaseModel):
@@ -63,3 +63,45 @@ class GreenStreetFullResponse(CommonResponse):
 
 class GreenStreetAllResponse(CommonResponse):
     info: list[InfoAll] = Field(..., min_length=1)
+
+
+class ObjPart(ObjBase):
+    com: int
+
+
+class Part(MyBaseModel):
+    ofs: int
+    result: str
+    guid: str
+    code: int
+
+
+class InfoItemFromPart(MyBaseModel):
+    """Участок."""
+    len: int
+    result: str
+    region: int
+    objs: list[ObjPart]
+    guid: str
+    code: int
+    caption: str
+
+
+class InfoItemFromRout(MyBaseModel):
+    """Маршрут с участком."""
+    parts: list[Part]
+    result: str
+    region: int
+    guid: str
+    code: int
+    caption: str
+
+
+class GreenPartResponse(CommonResponse):
+    """Ответ для создания участка (AddGreenPart)."""
+    info: list[InfoItemFromPart] = Field(..., min_length=1)
+
+
+class GreenRoutResponse(CommonResponse):
+    """Ответ для создания маршрута (AddGreenRout)."""
+    info: list[InfoItemFromRout] = Field(..., min_length=1)

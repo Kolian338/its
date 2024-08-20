@@ -3,6 +3,7 @@ import pytest
 
 from api_tests.tla.api.endpoints.lights import LightsClient
 from api_tests.tla.assertions.base import validate_response
+from api_tests.tla.helper.lights import get_all_id_from_lights
 from api_tests.tla.schemas.response.lights import (
     LightStateResponse, SignalProgramResponse
 )
@@ -17,7 +18,7 @@ class TestState:
     )
     @pytest.mark.parametrize(
         'id',
-        (4098, [4098])
+        (4097, get_all_id_from_lights(),),
     )
     def test_get_light_state(
             self,
@@ -45,7 +46,7 @@ class TestSignalProgram:
     )
     @pytest.mark.parametrize(
         'id',
-        (4098, [4098])
+        (4098, get_all_id_from_lights(),)
     )
     def test_get_light_signal_program(
             self,
