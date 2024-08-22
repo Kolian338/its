@@ -17,6 +17,8 @@ class APIQuery(str, Enum):
     AST = 'ast'
     ALL = 'all'
     FULL = 'full'
+    DELETE = 'delete'
+    DELETE_ROUTE = 'deleterout'
 
     def __str__(self) -> str:
         return self.value

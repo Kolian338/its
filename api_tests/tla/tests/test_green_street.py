@@ -1,5 +1,6 @@
 import allure
 import pytest
+from assertpy import assert_that
 
 from api_tests.tla.api.endpoints.greenstreet import GreenStreetClient
 from api_tests.tla.assertions.base import (
@@ -8,11 +9,11 @@ from api_tests.tla.assertions.base import (
 from api_tests.tla.helper.green_street import update_route_with_part_guid
 from api_tests.tla.routes.query import APIQuery
 from api_tests.tla.schemas.request.green_street import (
-    AddGreenPartRequest, AddGreenRouteRequest
+    AddGreenRouteRequest
 )
 from api_tests.tla.schemas.response.green_street import (
     GreenStreetFullResponse, GreenStreetAllResponse, GreenPartResponse,
-    GreenRoutResponse
+    GreenRoutResponse, GreenPartOrRouteDeleteResponse
 )
 
 
@@ -46,16 +47,43 @@ class TestGreenStreet:
     @allure.title(
         'Создание только участка ЗУ.'
     )
-    def test_green_street_create_parts(
+    def test_green_street_create_part(
             self,
-            green_street_part_data: AddGreenPartRequest,
-            green_street_client: GreenStreetClient,
+            create_part_and_delete_after: GreenPartResponse,
+            get_green_street_all: GreenStreetAllResponse,
     ):
-        response = green_street_client.create_part(
-            payload=green_street_part_data
+        """
+        Тест проверяет создание участка зеленой улицы и его присутствие
+         в списке зеленых улиц.
+        """
+        guid_from_current_part = (
+            create_part_and_delete_after.get_guids()[0]
         )
+        assert_that(
+            guid_from_current_part
+        ).is_in(*get_green_street_all.get_guids_from_parts())
+
+    @allure.title(
+        'Удаление участка ЗУ.'
+    )
+    def test_green_street_delete_part(
+            self,
+            green_street_client: GreenStreetClient,
+            create_part_without_delete: GreenPartResponse
+    ):
+        """
+        Проверяет удаление участка зеленой улицы по его GUID.
+
+        :param green_street_client: API клиент для взаимодействия
+         с зелеными улицами.
+        :param create_part_without_delete: Созданный участок для удаления.
+        """
+        guid_from_current_part = (
+            create_part_without_delete.get_guids()[0]
+        )
+        response = green_street_client.delete_part(guid_from_current_part)
         validate_response(
-            response, GreenPartResponse
+            response, GreenPartOrRouteDeleteResponse
         )
 
     @allure.title(
@@ -63,15 +91,19 @@ class TestGreenStreet:
     )
     def test_green_street_create_route(
             self,
-            green_street_rout_data: AddGreenRouteRequest,
-            green_street_client: GreenStreetClient,
+            create_green_street_route_and_delete: GreenRoutResponse,
+            get_green_street_all: GreenStreetAllResponse,
     ):
-        response = green_street_client.create_route(
-            payload=green_street_rout_data
+        """
+        Тест проверяет создание маршрута зеленой улицы и проверяет его наличие
+        в списке всех маршрутов.
+        """
+        guid_from_current_route = (
+            create_green_street_route_and_delete.get_guids()[0]
         )
-        validate_response(
-            response, GreenRoutResponse
-        )
+        assert_that(
+            guid_from_current_route
+        ).is_in(*get_green_street_all.get_guids_from_routes())
 
     @allure.title(
         'Создание маршрута с участком, ЗУ.'
@@ -80,10 +112,11 @@ class TestGreenStreet:
             self,
             green_street_rout_data: AddGreenRouteRequest,
             green_street_client: GreenStreetClient,
-            create_green_street_part: GreenPartResponse
+            create_part_and_delete_after: GreenPartResponse
     ):
         update_route_with_part_guid(
-            green_street_rout_data, create_green_street_part.info[0].guid
+            green_street_rout_data,
+            create_part_and_delete_after.info[0].guid
         )
         response = green_street_client.create_route(
             payload=green_street_rout_data

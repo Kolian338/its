@@ -13,7 +13,7 @@ from api_tests.tla.api.validators.disp_schedule import (
 )
 from api_tests.tla.routes.query import APIQuery
 from api_tests.tla.schemas.common import MyBaseModel
-from api_tests.tla.constants import Body
+from api_tests.tla.constants import RequestBody
 
 fake = Faker()
 
@@ -25,7 +25,7 @@ class Obj(MyBaseModel):
 
 
 class DispShedule(MyBaseModel):
-    guid: str = Field(default_factory=fake.uuid4)
+    guid: str = Field(default=fake.uuid4().upper())
     caption: str = Field(
         default_factory=lambda: f'Тестовое расписание. AUTO:{dt.now()}')
     type: str = Field(default=1)
@@ -33,7 +33,7 @@ class DispShedule(MyBaseModel):
     timeoff: float = Field(default_factory=next_hour_unix_time)
     objs: list[Obj] = Field(default_factory=lambda: [Obj()])
     tasks: list[str] = Field(default_factory=lambda: [fake.uuid4()])
-    region: int = Field(default=Body.REGION)
+    region: int = Field(default=RequestBody.REGION)
 
     _validate_region = field_validator(
         'region'

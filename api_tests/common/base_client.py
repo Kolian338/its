@@ -13,3 +13,15 @@ class ApiClient:
     def get(self, path="/", params=None, headers=None):
         url = f"{self.base_address}{path}"
         return requests.get(url=url, params=params, headers=headers)
+
+    def delete(self, path="/", params=None, headers=None):
+        """
+        Выполняет HTTP DELETE запрос.
+
+        :param path: Путь эндпоинта.
+        :param params: Параметры запроса.
+        :param headers: Заголовки запроса.
+        :return: Ответ от сервера.
+        """
+        url = f"{self.base_address}{path}"
+        return requests.delete(url=url, params=params, headers=headers)

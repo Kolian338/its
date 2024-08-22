@@ -1,12 +1,12 @@
 from datetime import datetime as dt
-from api_tests.tla.constants import Body
+from api_tests.tla.constants import RequestBody
 
 from faker import Faker
 from pydantic import (
     Field
 )
 
-from api_tests.tla.constants import Body
+from api_tests.tla.constants import RequestBody
 from api_tests.tla.routes.query import APIQuery
 from api_tests.tla.schemas.common import MyBaseModel
 
@@ -20,14 +20,14 @@ class Obj(MyBaseModel):
 
 class Part(MyBaseModel):
     """Участок."""
-    guid: str = Field(default_factory=fake.uuid4)
-    ofs: int = Field(default=Body.OFS)
+    guid: str = Field(default=fake.uuid4().upper())
+    ofs: int = Field(default=RequestBody.OFS)
 
 
 class AddGreenPartItem(MyBaseModel):
     """Элемент участка."""
-    region: int = Field(default=Body.REGION)
-    guid: str = Field(default_factory=fake.uuid4)
+    region: int = Field(default=RequestBody.REGION)
+    guid: str = Field(default=fake.uuid4().upper())
     caption: str = Field(
         default_factory=lambda: f'Тестовый участок. AUTO:{dt.now()}')
     len: int = Field(default=120)
@@ -38,8 +38,8 @@ class AddGreenRoutItem(MyBaseModel):
     """Маршрут."""
     caption: str = Field(
         default_factory=lambda: f'Тестовый маршрут. AUTO:{dt.now()}')
-    region: int = Field(default=Body.REGION)
-    guid: str = Field(default_factory=fake.uuid4)
+    region: int = Field(default=RequestBody.REGION)
+    guid: str = Field(default=fake.uuid4().upper())
     parts: list[Part] = Field(default_factory=lambda: [Part()])
 
 
