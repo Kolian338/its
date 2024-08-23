@@ -17,7 +17,6 @@ from api_tests.tla.schemas.response.green_street import (
 )
 
 
-@pytest.mark.asyncio
 class TestGreenStreet:
     @allure.title(
         'Получение списка участков и маршрутов Зеленых улиц.'

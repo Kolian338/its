@@ -9,7 +9,6 @@ from api_tests.tla.schemas.response.lights import (
 )
 
 
-@pytest.mark.asyncio
 @allure.feature('Lights')
 @allure.story('Lights API')
 class TestState:
@@ -39,7 +38,6 @@ class TestState:
         validate_response(response, LightStateResponse)
 
 
-@pytest.mark.asyncio
 class TestSignalProgram:
     @allure.title(
         'Получение сигнальных программ СО.'

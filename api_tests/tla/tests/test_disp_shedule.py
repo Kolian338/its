@@ -17,7 +17,6 @@ from api_tests.tla.schemas.response.disp_schedule import (
 from core.db import AsyncSessionPg
 
 
-@pytest.mark.asyncio
 class TestDispShedule:
     @allure.title(
         'Получение полного списка дисп.расписаний и краткого списка.'
